@@ -1,0 +1,31 @@
+version: "2"
+services:
+  master:
+    image: max2l/jenkins-master
+    build: ./master
+    ports:
+      - "80:8080"
+    environment:
+      - JAVA_OPTS=-Xmx2048m
+    volumes:
+      - jenkins-master:/var/jenkins_home
+
+  worker:
+    image: max2l/jenkins-slave
+    build: ./slave
+    hostname: worker
+    environment:
+      JAVA_OPTS: "-Xmx1024m"
+      JENKINS_MASTER: "http://master:8080"
+      JENKINS_NAME: "worker"
+      JENKINS_USER: "${JENKINS_USER}"
+      JENKINS_PASS: "${JENKINS_PASSWORD}"
+      JENKINS_RETRY: "20"
+      JENKINS_EXECUTORS: "3"
+      JENKINS_LABELS: "worker common"
+    volumes:
+      - jenkins-worker:/var/jenkins_home/worker
+
+volumes:
+  jenkins-master:
+  jenkins-worker:

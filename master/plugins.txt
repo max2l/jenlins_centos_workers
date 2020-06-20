@@ -1,0 +1,8 @@
+pipeline-rest-api
+pipeline-graph-analysis
+git
+ant
+gradle
+git-client
+github
+swarm
